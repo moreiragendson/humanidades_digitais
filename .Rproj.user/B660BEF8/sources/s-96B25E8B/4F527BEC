@@ -3,7 +3,7 @@
     "path": "~/GitHub/humanidades_digitais/trabalho_final.Rmd",
     "project_path": "trabalho_final.Rmd",
     "type": "r_markdown",
-    "hash": "3919033145",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1662660895710.0,
@@ -14,12 +14,12 @@
         "source_window_id": "",
         "Source": "Source",
         "cursorPosition": "17,77",
-        "scrollLine": "2",
+        "scrollLine": "0",
         "rmdVisualMode": "true",
         "rmdVisualWrapConfigured": "true",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "422:61.599998474121094"
+        "rmdVisualModeLocation": "2:0"
     },
     "folds": "",
     "lastKnownWriteTime": 1662664666,

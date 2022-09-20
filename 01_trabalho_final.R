@@ -8,6 +8,8 @@ library(googlesheets4)
 library(janitor)
 library(tidytext)
 library(wordcloud)
+library(ggraph)
+library(igraph)
 
 # read data ---------------------------------------------------------------
 
@@ -97,7 +99,33 @@ debate %>%
       coord_flip()
 
 
+# grafos ------------------------------------------------------------------
 
+debate2 <- read_csv("data/debate_band_28_08.csv")
 
+debate2 %<>%
+  unnest_tokens(bigram, texto, token = "ngrams", n = 2)
 
+debate2 %<>%
+  separate(bigram, c("word1", "word2"), sep = " ")
 
+pt_stop_words <- stopwords::data_stopwords_nltk$pt
+
+debate2 %<>%
+  filter(!word1 %in% pt_stop_words) %>%
+  filter(!word2 %in% pt_stop_words) %>% 
+  filter(!is.na(word1) & !is.na(word2))
+
+debate_count <- debate2 %>% 
+  count(word1, word2, sort = TRUE)
+
+# Grafo
+
+bigram_graph <- debate_count %>%
+  filter(n > 5) %>%
+  graph_from_data_frame()
+
+ggraph(bigram_graph, layout = "fr") +
+  geom_edge_link() +
+  geom_node_point() +
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1)
