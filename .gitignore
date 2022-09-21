@@ -3,5 +3,5 @@
 .RData
 .Ruserdata
 .01_trabalho_final.R
-.data
+.data/**
 trabalho_final.Rmd
