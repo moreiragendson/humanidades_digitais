@@ -58,14 +58,16 @@ vot_df2 <- vot_df %>%
                          "CONTAGEM","JUIZ DE FORA","BETIM"))
 
 vot_df2 %>% 
-  group_by(candidato) %>% 
+  group_by(municipio, candidato) %>% 
   summarise(votos = sum(votos_nom, na.rm = TRUE)) %>% 
+  slice(which.max(votos)) %>% 
   arrange(desc(votos))
+  
 
 ## 10) Descobrir quem foram os candidatos mais votados que nao
 ## foram eleitos. 
 
-vot_mod %>% 
+vot_df %>% 
   filter(situacao=="N\xc3O ELEITO") %>%
   group_by(candidato) %>% 
   summarise(votos = sum(votos_nom, na.rm = TRUE)) %>% 
@@ -82,22 +84,22 @@ centro <- c("PPS","DEM","PPL","MDB","PSDB","PMN",
             "SOLIDARIEDADE")
 
 
-vot_mod <- vot_mod %>% 
+vot_df <- vot_df %>% 
   mutate(ideologia = case_when(partido %in% esquerda ~ "esquerda",
                                partido %in% centro~ "centro",
                                TRUE~ "direita"))
 
 # Nos 5 distritos mais populosos
-vot_mod %>% 
+vot_df %>% 
   filter(municipio%in% c("BELO HORIZONTE","UBERL\xc2NDIA",
                          "CONTAGEM","JUIZ DE FORA","BETIM")) %>% 
-  group_by(ideologia) %>% 
+  group_by(municipio, ideologia) %>% 
   summarise(votos = sum(votos_nom, na.rm = TRUE)) %>% 
   mutate(percentage = round(votos/sum(votos),2)) %>% 
-  arrange(desc(percentage))
+  arrange(.by_group=TRUE)
 
 # MG em geral
-vot_mod %>% 
+vot_df %>% 
   group_by(ideologia) %>% 
   summarise(votos = sum(votos_nom, na.rm = TRUE)) %>% 
   mutate(percentage = round(votos/sum(votos),2)) %>% 
